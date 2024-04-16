@@ -14,6 +14,7 @@ interface CharactersProps {}
 const Characters: FC<CharactersProps> = () => {
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [page, setPage] = useState<string>("");
+  const [sortBy, setSortBy] = useState<string>("");
 
   const { isFetching, isError, error, data } = useQuery({
     queryKey: ["characters", page],
@@ -39,12 +40,30 @@ const Characters: FC<CharactersProps> = () => {
   }
 
   let dataToRender: any | null;
-  if (data?.results?.length > 0 && filteredCharacters?.results?.length === 0) {
-    dataToRender = data.results;
-  } else if (filteredCharacters?.results?.length > 0) {
-    dataToRender = filteredCharacters.results;
+  if (sortBy !== "") {
+    if (
+      data?.results?.length > 0 &&
+      filteredCharacters?.results?.length === 0
+    ) {
+      dataToRender = data.results.sort((a: any, b: any) =>
+        a[sortBy].localeCompare(b[sortBy])
+      );
+    } else if (filteredCharacters?.results?.length > 0) {
+      dataToRender = filteredCharacters.results.sort((a: any, b: any) =>
+        a[sortBy].localeCompare(b[sortBy])
+      );
+    }
   } else {
-    dataToRender = null;
+    if (
+      data?.results?.length > 0 &&
+      filteredCharacters?.results?.length === 0
+    ) {
+      dataToRender = data.results;
+    } else if (filteredCharacters?.results?.length > 0) {
+      dataToRender = filteredCharacters.results;
+    } else {
+      dataToRender = null;
+    }
   }
 
   if (isError || isFilteredError) {
@@ -58,6 +77,10 @@ const Characters: FC<CharactersProps> = () => {
     );
   }
 
+  const handleSetSortBy = (sortBy: string) => {
+    setSortBy(sortBy);
+  };
+
   return (
     <div className="flex flex-col gap-4 font-mono px-12">
       {dataToRender?.results?.length === 0 || dataToRender === null ? (
@@ -67,6 +90,7 @@ const Characters: FC<CharactersProps> = () => {
           <CharactersHeader
             filterStatus={filterStatus}
             setFilterStatus={setFilterStatus}
+            handleSetSortBy={handleSetSortBy}
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-4 my-6">
             {dataToRender !== null &&
