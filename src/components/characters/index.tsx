@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { FC, useState } from "react";
+import ScrollToTop from "react-scroll-to-top";
 import {
   fetchAllCharacters,
   fetchFilteredCharacters,
 } from "../../api/fetchCharacters";
+import EmptyResult from "../EmptyResult";
 import CharacterItem from "./CharacterItem";
 import CharactersHeader from "./CharactersHeader";
 
@@ -11,10 +13,11 @@ interface CharactersProps {}
 
 const Characters: FC<CharactersProps> = () => {
   const [filterStatus, setFilterStatus] = useState<string>("");
+  const [page, setPage] = useState<string>("");
 
   const { isFetching, isError, error, data } = useQuery({
-    queryKey: ["characters"],
-    queryFn: fetchAllCharacters,
+    queryKey: ["characters", page],
+    queryFn: () => fetchAllCharacters(page),
   });
 
   const {
@@ -23,22 +26,31 @@ const Characters: FC<CharactersProps> = () => {
     error: filteredError,
     data: filteredCharacters,
   } = useQuery({
-    queryKey: ["filteredCharacters", filterStatus],
-    queryFn: () => fetchFilteredCharacters(filterStatus),
+    queryKey: ["filteredCharacters", filterStatus, page],
+    queryFn: () => fetchFilteredCharacters(filterStatus, page),
   });
 
   if (isFetching || isFilteredFetching) {
     return (
       <div className="flex items-center justify-center gap-4">
-        <p className="text-3xl font-bold text-slate-700">Loading...</p>
+        <p className="text-2xl font-bold text-slate-700">Loading...</p>
       </div>
     );
+  }
+
+  let dataToRender: any | null;
+  if (data?.results?.length > 0 && filteredCharacters?.results?.length === 0) {
+    dataToRender = data.results;
+  } else if (filteredCharacters?.results?.length > 0) {
+    dataToRender = filteredCharacters.results;
+  } else {
+    dataToRender = null;
   }
 
   if (isError || isFilteredError) {
     return (
       <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-3xl font-bold text-slate-700">Error</h1>
+        <h1 className="text-2xl font-bold text-slate-700">Error</h1>
         <p className="text-lg text-slate-700">
           {error?.message || filteredError?.message}
         </p>
@@ -47,36 +59,40 @@ const Characters: FC<CharactersProps> = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4 font-mono">
-      {/* <ToastContainer /> */}
-      <CharactersHeader
-        filterStatus={filterStatus}
-        setFilterStatus={setFilterStatus}
-      />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-4 px-12">
-        {data?.results?.length > 0 &&
-        filteredCharacters?.results?.length === 0 ? (
-          data.results.map((character: any) => (
-            <CharacterItem key={character.id} character={character} />
-          ))
-        ) : filteredCharacters?.results?.length > 0 ? (
-          filteredCharacters?.results.map((character: any) => (
-            <CharacterItem key={character.id} character={character} />
-          ))
-        ) : data?.results?.length === 0 ? (
-          <div className="flex flex-col items-center justify-center gap-4">
-            <h1 className="text-3xl font-bold text-slate-700">
-              No characters found
-            </h1>
-
-            <img
-              src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
-              alt="No characters found"
-              className="w-1/2 h-1/2 object-cover rounded-lg"
-            />
+    <div className="flex flex-col gap-4 font-mono px-12">
+      {dataToRender?.results?.length === 0 || dataToRender === null ? (
+        <EmptyResult />
+      ) : (
+        <>
+          <CharactersHeader
+            filterStatus={filterStatus}
+            setFilterStatus={setFilterStatus}
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-4 my-6">
+            {dataToRender !== null &&
+              dataToRender.map((character: any) => (
+                <CharacterItem key={character.id} character={character} />
+              ))}
+            <ScrollToTop smooth />
           </div>
-        ) : null}
-      </div>
+          <div className="flex flex-row items-center justify-between my-10">
+            <button
+              disabled={data?.info?.prev === null}
+              onClick={() => setPage(data?.info?.prev?.split("=")[1] || "")}
+              className="rounded-full bg-blue-300 px-4 py-2 hover:bg-blue-500"
+            >
+              Previous
+            </button>
+            <button
+              disabled={data?.info?.next === null}
+              onClick={() => setPage(data?.info?.next?.split("=")[1] || "")}
+              className="rounded-full bg-blue-300 px-4 py-2 hover:bg-blue-500"
+            >
+              Next
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
