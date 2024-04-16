@@ -1,30 +1,42 @@
-# React + TypeScript + Vite
+# RICK AND MORTY CHARACTERS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a simple project that uses the [Rick and Morty API](https://rickandmortyapi.com/) to display the characters of the show.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Display all characters
+- Display individual character details
+- Filter characters by status (Alive, Dead, Unknown)
+- Sort characters by name, status, species
 
-## Expanding the ESLint configuration
+## Technologies
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React + TS
+- Vite
 
-- Configure the top-level `parserOptions` property like this:
+## Installation
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Clone this repo:
+  - Click on the **green button** written **code** on the top right corner of this page
+  - Copy the URL under **HTTPS** or **SSH**
+  - Open your terminal and run
+  ```bash
+  git clone <URL>
+  ```
+  replacing `<URL>` with the URL you copied
+- Navigate to the project directory
+  ```bash
+  cd rick-and-morty-characters
+  ```
+- Install dependencies
+  ```bash
+  yarn
+  ```
+- Open the project in your code editor(for vscode users)
+  ```bash
+  code .
+  ```
+- Start the development server
+  ```bash
+  yarn dev
+  ```
