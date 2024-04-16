@@ -40,6 +40,7 @@ const Characters: FC<CharactersProps> = () => {
   }
 
   let dataToRender: any | null;
+  // determine which data to render based on filtering and sorting
   if (sortBy !== "") {
     if (
       data?.results?.length > 0 &&

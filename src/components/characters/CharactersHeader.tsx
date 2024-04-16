@@ -3,6 +3,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { FC } from "react";
+import Logo from "../../assets/Rick_and_Morty_logo.webp";
 import SortButton from "./SortButton";
 
 interface CharactersHeaderProps {
@@ -22,9 +23,7 @@ const CharactersHeader: FC<CharactersHeaderProps> = ({
 
   return (
     <div className="flex flex-col py-4 gap-4 items-center justify-center">
-      <h1 className="text-3xl font-bold text-slate-700">
-        Rick and Morty Characters
-      </h1>
+      <img src={Logo} alt="Rick and Morty Logo" className="w-2/5" />
       <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-4 w-full ">
         <div className="flex items-center gap-1">
           <SortButton text="Name" handleSetSortBy={handleSetSortBy} />
