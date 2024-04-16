@@ -40,3 +40,4 @@ This is a simple project that uses the [Rick and Morty API](https://rickandmorty
   ```bash
   yarn dev
   ```
+- Open your browser and navigate to `http://localhost:5173/`
