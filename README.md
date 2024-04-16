@@ -41,3 +41,4 @@ This is a simple project that uses the [Rick and Morty API](https://rickandmorty
   yarn dev
   ```
 - Open your browser and navigate to `http://localhost:5173/`
+- Here is the [live demo](https://rick-and-morty-characters-sandy.vercel.app/)
