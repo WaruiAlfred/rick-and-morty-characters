@@ -1,8 +1,13 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Characters from "./components/characters";
+
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline text-center text-red-500">
-      Hello world!
-    </h1>
+    <QueryClientProvider client={queryClient}>
+      <Characters />
+    </QueryClientProvider>
   );
 }
 
