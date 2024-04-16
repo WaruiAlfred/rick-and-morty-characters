@@ -1,8 +1,4 @@
-import { FC } from "react";
-
-interface EmptyResultProps {}
-
-const EmptyResult: FC<EmptyResultProps> = () => {
+const EmptyResult = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <h1 className="text-3xl font-bold text-slate-700">No characters found</h1>

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { FC, useState } from "react";
+import { useState } from "react";
 import ScrollToTop from "react-scroll-to-top";
 import {
   fetchAllCharacters,
@@ -9,9 +9,7 @@ import EmptyResult from "../EmptyResult";
 import CharacterItem from "./CharacterItem";
 import CharactersHeader from "./CharactersHeader";
 
-interface CharactersProps {}
-
-const Characters: FC<CharactersProps> = () => {
+const Characters = () => {
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [page, setPage] = useState<string>("");
   const [sortBy, setSortBy] = useState<string>("");
